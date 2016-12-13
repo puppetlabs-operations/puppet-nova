@@ -4,6 +4,10 @@
 #
 # === Parameters:
 #
+# [*enabled*]
+#   (optional) Whether to run the serial service
+#   Defaults to false
+#
 # [*port_range*]
 #   (optional) Range of TCP ports to use for serial ports on compute hosts
 #   Defaults to 10000:20000
@@ -22,6 +26,7 @@
 #   Defaults to 127.0.0.1
 #
 class nova::compute::serial(
+  $enabled               = false,
   $port_range            = '10000:20000',
   $base_url              = 'ws://127.0.0.1:6083/',
   $listen                = '127.0.0.1',
@@ -31,7 +36,7 @@ class nova::compute::serial(
   include ::nova::deps
 
   nova_config {
-    'serial_console/enabled':             value => true;
+    'serial_console/enabled':             value => $enabled;
     'serial_console/port_range':          value => $port_range;
     'serial_console/base_url':            value => $base_url;
     'serial_console/listen':              value => $listen;
